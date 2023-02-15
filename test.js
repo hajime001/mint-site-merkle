@@ -1,0 +1,67 @@
+import { expect }  from 'chai';
+import { MintSiteMerkle } from "./index.js";
+
+describe('merkle', function() {
+    const types = ['address', 'uint256'];
+    const al = [
+        ["0x5B38Da6a701c568545dCfcB03FcB875f56beddC4", 5],
+        ["0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2", 5],
+        ["0x4B20993Bc481177ec7E8f571ceCaE8A9e22C02db", 5],
+    ];
+    const lowerAl = [
+        ["0x5b38da6a701c568545dcfcb03fcb875f56beddc4", 5],
+        ["0xab8483f64d9c6d1ecf9b849ae677dd3315835cb2", 5],
+        ["0x4b20993bc481177ec7e8f571cecae8a9e22c02db", 5],
+    ];
+    const upperLowerMixAl = [
+        ["0x5b38da6a701c568545dcfcb03fcb875f56beddc4", 5],
+        ["0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2", 5],
+        ["0x4B20993Bc481177ec7E8f571ceCaE8A9e22C02db", 5],
+    ];
+
+    it('rootHash', () => {
+        const merkle = new MintSiteMerkle(types, al);
+
+        expect(merkle.displayRootHash()).to.be.equal('Root Hash: 0xf8183e82d54d320809c75cabd271926605119eeff7f1fd7aa3a8fef7ff9a82ef');
+    })
+
+    it('main', () => {
+        const merkle = new MintSiteMerkle(types, al);
+        const address = al[0][0];
+
+        expect(merkle.getHexProof(address)).to.be.eql([
+            "0xe40f707d87626db2d479b31e2daab4fd8cf473c1e7e9486f886ff1c674f9837c",
+            "0xf0bb8f3904c24136343b759ed9426d40529dd10478b0feb250a36126f3e4ebc3"
+        ]);
+        expect(merkle.verify(al[0])).to.be.true;
+        expect(merkle.verify(al[1])).to.be.true;
+        expect(merkle.verify(al[2])).to.be.true;
+        expect(merkle.verify([al[0][0], 4])).to.be.false;
+    })
+
+    it('claimAdressが大文字小文字と小文字のみのproofが一致', () => {
+        const merkle = new MintSiteMerkle(types, al);
+
+        const claimingAddress = al[0][0];
+        const proof1 = merkle.getHexProof(claimingAddress);
+        const lowerClaimingAddress = lowerAl[0][0];
+        const proof2 = merkle.getHexProof(lowerClaimingAddress);
+
+        expect(proof1).to.be.eql(proof2);
+    })
+
+    it ('alに大文字小文字混じっていてもRootHashが一致', () => {
+        const merkle = new MintSiteMerkle(types, al);
+        const merkle2 = new MintSiteMerkle(types, lowerAl);
+        const merkle3 = new MintSiteMerkle(types, upperLowerMixAl);
+
+        expect(merkle.displayRootHash()).to.be.equal(merkle2.displayRootHash());
+        expect(merkle2.displayRootHash()).to.be.equal(merkle3.displayRootHash());
+    })
+
+    it ('merkle外のアドレスを指定', () => {
+        const merkle = new MintSiteMerkle(types, al);
+
+        expect(merkle.getHexProof('0x78731D3Ca6b7E34aC0F824c42a7cC18A495cabaB')).to.be.eql([]);
+    })
+})
