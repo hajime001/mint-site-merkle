@@ -1,11 +1,11 @@
 {
   "name": "mint-site-merkle",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "This is a marktree implementation for use on the mint site.",
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npx mocha test.js"
   },
   "repository": {
     "type": "git",
@@ -23,7 +23,7 @@
   "homepage": "https://github.com/hajime001/mint-site-merkle#readme",
   "dependencies": {
     "chai": "^4.3.7",
-    "ethers": "^6.0.2",
+    "ethers": "^5.7.2",
     "keccak256": "^1.0.6",
     "merkletreejs": "^0.3.9",
     "mocha": "^10.2.0"
