@@ -1,6 +1,6 @@
 {
   "name": "mint-site-merkle",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "This is a marktree implementation for use on the mint site.",
   "main": "index.js",
   "type": "module",
