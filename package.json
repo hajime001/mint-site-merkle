@@ -1,6 +1,6 @@
 {
   "name": "mint-site-merkle",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "This is a merkle tree implementation for use on the mint site.",
   "main": "index.js",
   "type": "module",
