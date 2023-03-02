@@ -22,7 +22,7 @@ describe('merkle', function() {
     it('rootHash', () => {
         const merkle = new MintSiteMerkle(types, al);
 
-        expect(merkle.displayRootHash()).to.be.equal('Root Hash: 0xf8183e82d54d320809c75cabd271926605119eeff7f1fd7aa3a8fef7ff9a82ef');
+        expect(merkle.getRootHash()).to.be.equal('0xf8183e82d54d320809c75cabd271926605119eeff7f1fd7aa3a8fef7ff9a82ef');
     })
 
     it('main', () => {
@@ -55,8 +55,8 @@ describe('merkle', function() {
         const merkle2 = new MintSiteMerkle(types, lowerAl);
         const merkle3 = new MintSiteMerkle(types, upperLowerMixAl);
 
-        expect(merkle.displayRootHash()).to.be.equal(merkle2.displayRootHash());
-        expect(merkle2.displayRootHash()).to.be.equal(merkle3.displayRootHash());
+        expect(merkle.getRootHash()).to.be.equal(merkle2.getRootHash());
+        expect(merkle2.getRootHash()).to.be.equal(merkle3.getRootHash());
     })
 
     it ('merkle外のアドレスを指定', () => {

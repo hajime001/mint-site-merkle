@@ -1,5 +1,5 @@
 import { ethers } from 'ethers';
-import { MerkleTree} from 'merkletreejs';
+import { MerkleTree } from 'merkletreejs';
 import keccak256 from 'keccak256';
 
 export class MintSiteMerkle {
@@ -17,14 +17,16 @@ export class MintSiteMerkle {
         this.merkleTree = new MerkleTree(leafNodes, keccak256, { sortPairs: true });
     }
 
-    displayRootHash() {
-        return "Root Hash: " + "0x" + this.merkleTree.getRoot().toString('hex');
-    }
-
+    // exsample
+    // values: ['0x5B38Da6a701c568545dCfcB03FcB875f56beddC4', 5]
     verify(values) {
         values[0] = ethers.utils.getAddress(values[0]);
 
         return this.merkleTree.verify(this.getHexProof(values[0]), ethers.utils.solidityKeccak256(this.types, values), this.merkleTree.getRoot());
+    }
+
+    getRootHash() {
+        return "0x" + this.merkleTree.getRoot().toString('hex');
     }
 
     getHexProof(address) {
