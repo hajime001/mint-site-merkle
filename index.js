@@ -18,11 +18,11 @@ export class MintSiteMerkle {
     }
 
     // exsample
-    // values: ['0x5B38Da6a701c568545dCfcB03FcB875f56beddC4', 5]
-    verify(values) {
-        values[0] = ethers.utils.getAddress(values[0]);
+    // list: ['0x5B38Da6a701c568545dCfcB03FcB875f56beddC4', 5]
+    verify(list) {
+        list[0] = ethers.utils.getAddress(list[0]);
 
-        return this.merkleTree.verify(this.getHexProof(values[0]), ethers.utils.solidityKeccak256(this.types, values), this.merkleTree.getRoot());
+        return this.merkleTree.verify(this.getHexProof(list[0]), ethers.utils.solidityKeccak256(this.types, list), this.merkleTree.getRoot());
     }
 
     getRootHash() {
