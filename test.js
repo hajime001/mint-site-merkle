@@ -27,9 +27,7 @@ describe('merkle', function() {
 
     it('main', () => {
         const merkle = new MintSiteMerkle(types, al);
-        const address = al[0][0];
-
-        expect(merkle.getHexProof(address)).to.be.eql([
+        expect(merkle.getHexProof(al[0])).to.be.eql([
             "0xe40f707d87626db2d479b31e2daab4fd8cf473c1e7e9486f886ff1c674f9837c",
             "0xf0bb8f3904c24136343b759ed9426d40529dd10478b0feb250a36126f3e4ebc3"
         ]);
@@ -43,10 +41,8 @@ describe('merkle', function() {
     it('claimAddressが大文字小文字と小文字のみのproofが一致', () => {
         const merkle = new MintSiteMerkle(types, al);
 
-        const claimingAddress = al[0][0];
-        const proof1 = merkle.getHexProof(claimingAddress);
-        const lowerClaimingAddress = lowerAl[0][0];
-        const proof2 = merkle.getHexProof(lowerClaimingAddress);
+        const proof1 = merkle.getHexProof(al[0]);
+        const proof2 = merkle.getHexProof(lowerAl[0]);
 
         expect(proof1).to.be.eql(proof2);
     })
@@ -63,7 +59,7 @@ describe('merkle', function() {
     it ('merkle外のアドレスを指定', () => {
         const merkle = new MintSiteMerkle(types, al);
 
-        expect(merkle.getHexProof('0x78731D3Ca6b7E34aC0F824c42a7cC18A495cabaB')).to.be.eql([]);
+        expect(merkle.getHexProof(['0x78731D3Ca6b7E34aC0F824c42a7cC18A495cabaB', 5])).to.be.eql([]);
     })
 
     it ('リスト探索成功', () => {

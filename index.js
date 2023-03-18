@@ -24,9 +24,7 @@ export class MintSiteMerkle {
             return false;
         }
 
-        const adjustAddress = ethers.utils.getAddress(list[0]);
-
-        return this.merkleTree.verify(this.getHexProof(adjustAddress), ethers.utils.solidityKeccak256(this.types, list), this.merkleTree.getRoot());
+        return this.merkleTree.verify(this.getHexProof(list), ethers.utils.solidityKeccak256(this.types, list), this.merkleTree.getRoot());
     }
 
     findList(address) {
@@ -45,17 +43,10 @@ export class MintSiteMerkle {
         return "0x" + this.merkleTree.getRoot().toString('hex');
     }
 
-    getHexProof(address) {
-        const adjustAddress = ethers.utils.getAddress(address);
+    getHexProof(list) {
+        list[0] = ethers.utils.getAddress(list[0]);
+        const claimingAddress = ethers.utils.solidityKeccak256(this.types, list);
 
-        for(let i = 0; i < this.lists.length; ++i) {
-            if (this.lists[i][0] === adjustAddress) {
-                const claimingAddress = ethers.utils.solidityKeccak256(this.types, this.lists[i]);
-
-                return this.merkleTree.getHexProof(claimingAddress);
-            }
-        }
-
-        return [];
+        return this.merkleTree.getHexProof(claimingAddress);
     }
 }
