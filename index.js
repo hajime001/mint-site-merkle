@@ -20,9 +20,21 @@ export class MintSiteMerkle {
     // exsample
     // list: ['0x5B38Da6a701c568545dCfcB03FcB875f56beddC4', 5]
     verify(list) {
-        list[0] = ethers.utils.getAddress(list[0]);
+        const adjustAddress = ethers.utils.getAddress(list[0]);
 
-        return this.merkleTree.verify(this.getHexProof(list[0]), ethers.utils.solidityKeccak256(this.types, list), this.merkleTree.getRoot());
+        return this.merkleTree.verify(this.getHexProof(adjustAddress), ethers.utils.solidityKeccak256(this.types, list), this.merkleTree.getRoot());
+    }
+
+    findList(address) {
+        const adjustAddress = ethers.utils.getAddress(address);
+
+        for(let i = 0; i < this.lists.length; ++i) {
+            if(this.lists[i][0] === adjustAddress) {
+                return this.lists[i];
+            }
+        }
+
+        return [];
     }
 
     getRootHash() {

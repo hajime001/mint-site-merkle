@@ -39,7 +39,7 @@ describe('merkle', function() {
         expect(merkle.verify([al[0][0], 4])).to.be.false;
     })
 
-    it('claimAdressが大文字小文字と小文字のみのproofが一致', () => {
+    it('claimAddressが大文字小文字と小文字のみのproofが一致', () => {
         const merkle = new MintSiteMerkle(types, al);
 
         const claimingAddress = al[0][0];
@@ -63,5 +63,27 @@ describe('merkle', function() {
         const merkle = new MintSiteMerkle(types, al);
 
         expect(merkle.getHexProof('0x78731D3Ca6b7E34aC0F824c42a7cC18A495cabaB')).to.be.eql([]);
+    })
+
+    it ('リスト探索成功', () => {
+        const merkle = new MintSiteMerkle(types, al);
+
+        expect(merkle.findList(al[0][0])).to.be.eql(al[0]);
+        expect(merkle.findList(al[1][0])).to.be.eql(al[1]);
+        expect(merkle.findList(al[2][0])).to.be.eql(al[2]);
+
+        expect(merkle.findList(lowerAl[0][0])).to.be.eql(lowerAl[0]);
+        expect(merkle.findList(lowerAl[1][0])).to.be.eql(lowerAl[1]);
+        expect(merkle.findList(lowerAl[2][0])).to.be.eql(lowerAl[2]);
+
+        expect(merkle.findList(upperLowerMixAl[0][0])).to.be.eql(upperLowerMixAl[0]);
+        expect(merkle.findList(upperLowerMixAl[1][0])).to.be.eql(upperLowerMixAl[1]);
+        expect(merkle.findList(upperLowerMixAl[2][0])).to.be.eql(upperLowerMixAl[2]);
+    })
+
+    it ('リスト探索失敗', () => {
+        const merkle = new MintSiteMerkle(types, al);
+
+        expect(merkle.findList('0x78731D3Ca6b7E34aC0F824c42a7cC18A495cabaB')).to.be.eql([]);
     })
 })
