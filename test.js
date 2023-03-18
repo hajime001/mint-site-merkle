@@ -37,6 +37,7 @@ describe('merkle', function() {
         expect(merkle.verify(al[1])).to.be.true;
         expect(merkle.verify(al[2])).to.be.true;
         expect(merkle.verify([al[0][0], 4])).to.be.false;
+        expect(merkle.verify([])).to.be.false;
     })
 
     it('claimAddressが大文字小文字と小文字のみのproofが一致', () => {

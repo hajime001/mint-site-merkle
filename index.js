@@ -20,6 +20,10 @@ export class MintSiteMerkle {
     // exsample
     // list: ['0x5B38Da6a701c568545dCfcB03FcB875f56beddC4', 5]
     verify(list) {
+        if (list.length === 0) {
+            return false;
+        }
+
         const adjustAddress = ethers.utils.getAddress(list[0]);
 
         return this.merkleTree.verify(this.getHexProof(adjustAddress), ethers.utils.solidityKeccak256(this.types, list), this.merkleTree.getRoot());
