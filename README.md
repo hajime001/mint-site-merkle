@@ -32,7 +32,7 @@ import { types, lists } from "./allowlist";
   const list = merkle.findList(blockchain.account);
   if (merkle.verify(list)) {
     ...
-    contract.methods.mint(amount, list[1], merkle.getHexProof(blockchain.account)).send(...);
+    contract.methods.mint(amount, list[1], merkle.getHexProof(list)).send(...);
   }
 ```
 
