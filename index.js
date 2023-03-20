@@ -23,6 +23,7 @@ export class MintSiteMerkle {
         if (list.length === 0) {
             return false;
         }
+        list[0] = ethers.utils.getAddress(list[0]);
 
         return this.merkleTree.verify(this.getHexProof(list), ethers.utils.solidityKeccak256(this.types, list), this.merkleTree.getRoot());
     }
